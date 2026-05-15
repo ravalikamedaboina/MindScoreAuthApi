@@ -8,6 +8,7 @@ namespace MindScoreApi.Services
         ValidationResult ValidateRegisterRequest(string name, string email, string password, int age, string gender);
         ValidationResult ValidateLoginRequest(string email, string password);
         bool IsValidEmail(string email);
+        bool IsValidPassword(string password);
     }
 
     public class ValidationService : IValidationService
@@ -49,12 +50,22 @@ namespace MindScoreApi.Services
             }
 
             // Validate age is a valid number
-            if (age <= 0 || age > 150)
+            if (age <= 0 || age > 100)
             {
                 return new ValidationResult
                 {
                     IsValid = false,
                     Message = "Age must be a valid number between 1 and 150."
+                };
+            }
+
+            // Validate password strength
+            if (!IsValidPassword(password))
+            {
+                return new ValidationResult
+                {
+                    IsValid = false,
+                    Message = "Password must be at least 8 characters long, contain at least one uppercase letter, and at least one special character."
                 };
             }
 
@@ -98,6 +109,26 @@ namespace MindScoreApi.Services
             {
                 return false;
             }
+        }
+
+        public bool IsValidPassword(string password)
+        {
+            if (string.IsNullOrWhiteSpace(password))
+                return false;
+
+            // Check minimum length of 8 characters
+            if (password.Length < 8)
+                return false;
+
+            // Check for at least one uppercase letter
+            if (!Regex.IsMatch(password, @"[A-Z]"))
+                return false;
+
+            // Check for at least one special character
+            if (!Regex.IsMatch(password, @"[!@#$%^&*()_+\-=\[\]{};':"",.<>?/\\|`~]"))
+                return false;
+
+            return true;
         }
     }
 
