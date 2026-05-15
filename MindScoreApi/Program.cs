@@ -1,7 +1,6 @@
-using Microsoft.EntityFrameworkCore;
 using MindScoreApi.Data;
 using MindScoreApi.Services;
-using System;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
