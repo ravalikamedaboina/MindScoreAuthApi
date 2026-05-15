@@ -1,0 +1,6 @@
+@MindScoreApi.Server_HostAddress = http://localhost:5163
+
+GET {{MindScoreApi.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
